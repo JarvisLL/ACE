@@ -1,0 +1,64 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import os 
+from yacs.config import CfgNode as CN
+
+_ACE = CN()
+
+_ACE.DESCRIPTION = 'ace_citys'
+
+# environment
+_ACE.NO_CUDA = False
+_ACE.NGPUS = 1
+_ACE.LOCAL_RANK = 0
+_ACE.INIT_METHOD = 'env://'
+
+# cudnn related parmas
+_ACE.CUDNN = CN()
+_ACE.CUDNN.BENCHMARK = True
+_ACE.CUDNN.DETERMINISTIC = True
+
+# common params for NETWORKS
+_ACE.MODEL = CN()
+_ACE.MODEL.SEG_NET = 'lpnetdepthwise26'
+_ACE.MODEL.TARGET_GENERATOR = 'targetimggenerator'
+
+# DATASET related params
+_ACE.DATASET = CN()
+_ACE.DATASET.NAME = 'citys'
+_ACE.DATASET.IMG_TRANSFORM = False
+_ACE.DATASET.BASE_SIZE = 1024
+_ACE.DATASET.CROP_SIZE = 512
+_ACE.DATASET.WORKERS = 4
+_ACE.DATASET.PIN_MEMORY = True
+_ACE.DATASET.IGNORE_INDEX = -1
+
+# training
+_ACE.TRAIN = CN()
+_ACE.TRAIN.MIXED_PRECISION = False
+_ACE.TRAIN.MIXED_OPT_LEVEL = "O1"
+_ACE.TRAIN.TRAIN_SPLIT = 'train'
+_ACE.TRAIN.DROP_RATE = 0.3
+_ACE.TRAIN.SEG_LOSS = 'focalloss2d'
+_ACE.TRAIN.EPOCHS = 40
+_ACE.TRAIN.BATCH_SIZE = 2
+_ACE.TRAIN.LR = 0.001
+_ACE.TRAIN.GENERATOR_LR = 0.001
+_ACE.TRAIN.MOMENTUM = 0.99
+_ACE.TRAIN.WEIGHT_DECAY = 5e-5
+_ACE.TRAIN.WARMUP_ITERS = 2000
+_ACE.TRAIN.WARMUP_FACTOR = 1.0 / 3
+_ACE.TRAIN.EVAL_EPOCH = 5
+_ACE.TRAIN.SKIP_EVAL = False
+_ACE.TRAIN.DTYPE = 'float32'
+_ACE.TRAIN.LOG_STEP = 10
+_ACE.TRAIN.SAVE_EPOCH = 5
+_ACE.TRAIN.SAVE_DIR = './checkpoint/ace'
+_ACE.TRAIN.RESUME = ''
+_ACE.TRAIN.RESUME_GENERATOR = ''
+
+# testing
+_ACE.TEST = CN()
+_ACE.TEST.TEST_BATCH_SIZE = 1

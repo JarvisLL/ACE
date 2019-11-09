@@ -1,0 +1,45 @@
+DESCRIPTION: 'test_model'
+NO_CUDA: False
+GPUS: [0]
+LOCAL_RANK: 0
+INIT_METHOD: "env://"
+
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: True
+MODEL:
+  NAME: 'deeplabv3plus'
+DATASET:
+  NAME: 'synthia'
+  IMG_TRANSFORM: True
+  BASE_SIZE: 1024
+  CROP_SIZE: 128
+  WORKERS: 4
+  PIN_MEMORY: False
+  IGNORE_INDEX: -1
+TRAIN:
+  MIXED_PRECISION: True
+  MIXED_OPT_LEVEL: "O1"
+  TRAIN_SPLIT: 'train'
+  DROP_RATE: 0.2
+  SEG_LOSS: 'focalloss2d'
+  EPOCHS: 40
+  BATCH_SIZE: 2
+  LR: 0.001
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 0.00001
+  WARMUP_ITERS: 2000
+  WARMUP_FACTOR: 0.33333333
+  EVAL_EPOCHS: 5
+  SKIP_EVAL: False
+  DTYPE: 'float32'
+  LOG_STEP: 10
+  SAVE_EPOCH: 1
+  SAVE_DIR: './checkpoint/basemodel'
+  RESUME: ''
+TEST:
+  MODE: 'testval'
+  TEST_SPLIT: 'val'
+  MODEL_NAME: 'deeplabv3plus'
+  TEST_BATCH_SIZE: 1
+  PRETRAINED: ''
